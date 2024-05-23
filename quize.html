@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+body{
+    background:#7d7db3;
+}
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+#question-container {
+    margin-bottom: 20px;
+}
+
+#question {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.btn-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Quiz Game</h1>
+        <div id="question-container">
+            <p id="question"></p>
+            <div id="options" class="btn-container"></div>
+        </div>
+        <div id="result"></div>
+        <button id="next-btn" class="btn" onclick="nextQuestion()">Next Question</button>
+        <button onclick="reset()" >reset</button>
+    </div>
+
+ <script>
+const quizData = [
+    {
+        question: 'What is the capital of France?',
+        options: ['Paris', 'London', 'Berlin', 'Rome'],
+        answer: 'Paris'
+    },
+    {
+        question: 'What is the largest planet in our solar system?',
+        options: ['Mars', 'Jupiter', 'Saturn', 'Earth'],
+        answer: 'Jupiter'
+    },
+    {
+        question: 'What is the chemical symbol for water?',
+        options: ['W', 'H2O', 'O2', 'CO2'],
+        answer: 'H2O'
+    },
+    {
+        question: 'Which animal is known as the "King of the Jungle"?',
+        options: ['Elephant', 'Lion', 'Tiger', 'Giraffe'],
+        answer: 'Lion'
+    }
+];
+// const questionelement=document.querySelector('#question');
+// const answer=document.querySelector('#option');
+// const result=document.querySelector('#result');
+// let currentquestion=0;
+// let score=0;
+// displauquestion();
+// function displauquestion(){
+//     let currentty=quizData[currentquestion];
+//     questionelement.innerText=currentty.question;
+//    answer.innerHTML='';
+//     currentty.options.forEach(option=>{
+//         const button=document.createElement('button');
+//         button.innerText=option;
+//         button.classlist.add('btn');
+//         button.addEventListener("click",()=>{
+//             selectanswer(option)
+//             answer.appendChild('button');
+//         });
+
+//     });
+// }
+
+let currentQuestion = 0;
+let score = 0;
+
+const questionElement = document.getElementById('question');
+const optionsContainer = document.getElementById('options');
+const resultElement = document.getElementById('result');
+displayQuestion();
+// Function to display question and options
+function displayQuestion() {
+    const currentQuizData = quizData[currentQuestion];
+    questionElement.innerText = currentQuizData.question;
+    optionsContainer.innerHTML = '';
+    currentQuizData.options.forEach(option => {
+       
+        const button = document.createElement('button');
+        button.innerText = option;
+        button.classList.add('btn');
+        button.addEventListener('click', () => selectAnswer(option));
+        optionsContainer.appendChild(button);
+    });
+}
+function selectAnswer(selectoption){
+    const currentdat=quizData[currentQuestion];
+    if(selectoption===currentdat.answer){
+        score++;
+        resultElement.innerText='correct';
+    }else{
+        resultElement.innerText='incorrect';
+    }
+    currentQuestion++
+    if (currentQuestion < quizData.length) {
+        document.getElementById('next-btn').style.display = 'block';
+    } else {
+        showScore();
+    }
+}
+function showScore(){
+    questionElement.innerText = `Your Score: ${score}/${quizData.length}`;
+    optionsContainer.innerHTML = '';
+    document.getElementById('next-btn').style.display = 'none';
+}
+
+function nextQuestion(){
+    resultElement.innerText='';
+    displayQuestion();
+}
+function reset(){
+    currentQuestion=0;
+    score=0;
+    displayQuestion();
+}
+ </script>   
+</body>
+</html>
